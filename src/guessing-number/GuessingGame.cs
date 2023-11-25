@@ -40,6 +40,14 @@ public class GuessNumber
         var message = string.Empty;
         var canConvert = Int32.TryParse(userEntry, out userEnter);
 
+        currentAttempts++;
+
+        if (currentAttempts > maxAttempts)
+        {
+            gameOver = true;
+            return "Você excedeu o número máximo de tentativas! Tente novamente.";
+        }
+
 
         if (canConvert)
         {
