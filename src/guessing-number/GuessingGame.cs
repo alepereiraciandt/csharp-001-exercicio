@@ -20,7 +20,7 @@ public class GuessNumber
     public int randomValue;
 
     public int maxAttempts = 5;
-    public int currentAttempts;
+    public int currentAttempts = 0;
 
     public int difficultyLevel = 1;
 
@@ -91,49 +91,47 @@ public class GuessNumber
     //6 - Adicione níveis de dificuldade
     public string RandomNumberWithDifficult()
     {
-        int min = 0;
-        int max = 0;
-
-        if (difficultyLevel == 1)
+        int maxNumber = 100;
+        if (difficultyLevel == 2)
         {
-            min = -100;
-            max = 100;
-        }
-        else if (difficultyLevel == 2)
-        {
-            min = -500;
-            max = 500;
+            maxNumber = 500;
         }
         else if (difficultyLevel == 3)
         {
-            min = -1000;
-            max = 1000;
+            maxNumber = 1000;
         }
+        randomValue = random.GetInt(-maxNumber, maxNumber);
 
+        return $"A máquina escolheu um número de -{maxNumber} à {maxNumber}!";
 
-        return $"A máquina escolheu um número de {min} à {max}!";
     }
 
     //4 - Verifique a resposta da jogada
     public string AnalyzePlay()
     {
-        var message = "ACERTOU!";
-
-        if (userValue < randomValue)
+        if (userValue > randomValue)
         {
-            message = "Tente um número MAIOR";
+            return "Tente um número MENOR";
         }
-        else if (userValue > randomValue)
+        else if (userValue < randomValue)
         {
-            message = "Tente um número MENOR";
+            return "Tente um número MAIOR";
         }
-
-        return message;
+        else
+        {
+            gameOver = true;
+            return "ACERTOU!";
+        }
     }
 
     //7 - Adicione uma opção para reiniciar o jogo
     public void RestartGame()
     {
-        throw new NotImplementedException();
+        userValue = 0;
+        randomValue = 0;
+        currentAttempts = 0;
+        gameOver = false;
+        difficultyLevel = 1;
+        maxAttempts = 5;
     }
 }
